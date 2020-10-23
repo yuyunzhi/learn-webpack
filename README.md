@@ -251,7 +251,7 @@ plugins是在某个时刻(刚打包、打包结束，打包中间)做一件事
 npm install html-webpack-plugin clean-webpack-plugin -D
 ```
 
-// webpack.config.js
+// webpack.prod.js
 ```
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin’);
@@ -422,7 +422,7 @@ devServer: {
 
 ### 配置如下
 
-webpack.config.js
+webpack.prod.js
 
 ```
 const webpack = require('webpack’);
@@ -535,7 +535,7 @@ npm install -save-dev @babel/plugin-transform-runtime @babel/runtime @babel/runt
 }
 ```
 
-webpack.config.js
+webpack.prod.js
 
 ```
 {
@@ -555,7 +555,7 @@ webpack.config.js
 npm install --save-dev @babel/preset-react
 ```
 
-webpack.config.js
+webpack.prod.js
 
 ```
 {

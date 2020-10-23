@@ -65,7 +65,7 @@ npm install -save-dev @babel/plugin-transform-runtime @babel/runtime @babel/runt
 }
 ```
 
-webpack.config.js
+webpack.prod.js
 
 ```
 {

@@ -13,7 +13,7 @@ math.js里有两个方法，如果使用了Tree Shaking 那么只会打包add方
 
 ### 2、如何配置
 
-webpack.config.js
+webpack.prod.js 生成环境不需要配置这个
 
 ```
 optimization: { // 使用tree shaking
