@@ -2,7 +2,6 @@
 
 ### 1、如何切换开发环境和生产环境webpack配置
 
-
 - 创建生产环境文件 ./build/webpack.prod.js
 - 创建开发环境文件 ./build/webpack.dev.js
 - 创建公共的代码文件 ./build/webpack.common.js

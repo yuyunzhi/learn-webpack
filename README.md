@@ -16,7 +16,7 @@ npm install wepack webpack-cli -g
 在项目内安装webpack
 
 ```
-npm install wepack webpack-cli -D
+npm install webpack webpack-cli -D
 ```
 
 **注意**：webpack-cli的作用是我们可以在命令行里直接使用webpack

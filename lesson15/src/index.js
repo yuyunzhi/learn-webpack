@@ -5,15 +5,20 @@ import _ from "lodash";  // 假设有1MB
 // document.body.appendChild(element)
 
 // 懒加载
-async function getComponent() {
-  const {default: _} = await import(/* webpackChunkName:"lodash" */'lodash')
-  const element = document.createElement('div')
-  element.innerHTML = _.join(['y', 'kk'], '-');
-  return element;
-}
+// async function getComponent() {
+//   const {default: _} = await import(/* webpackChunkName:"lodash" */'lodash')
+//
+//   return element;
+// }
 
 document.addEventListener('click', () => {
-  getComponent().then(element => {
-    document.body.appendChild(element)
+  import('./click.js').then(({default:func}) => {
+    func()
   })
 })
+
+// document.addEventListener('click', () => {
+//   const element = document.createElement('div')
+//   element.innerHTML = 'ykk'
+//   document.body.appendChild(element)
+// })
