@@ -1,19 +1,32 @@
+Webpack Bundle Analyzer is started at http://127.0.0.1:8888
+Use Ctrl+C to close it
 {
   "errors": [],
   "warnings": [],
   "version": "4.44.2",
-  "hash": "5594b28778aa24e731c5",
-  "time": 1860,
-  "builtAt": 1604045781882,
+  "hash": "9735940acdc68f93138f",
+  "time": 1168,
+  "builtAt": 1604297650191,
   "publicPath": "",
   "outputPath": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/dist",
   "assetsByChunkName": {
-    "main": "main.js"
+    "main": "main.js",
+    "vendors~main": "vendors~main.js"
   },
   "assets": [
     {
+      "name": "0.js",
+      "size": 1222,
+      "chunks": [
+        0
+      ],
+      "chunkNames": [],
+      "info": {},
+      "emitted": true
+    },
+    {
       "name": "index.html",
-      "size": 195,
+      "size": 257,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -21,12 +34,24 @@
     },
     {
       "name": "main.js",
-      "size": 1461040,
+      "size": 39885,
       "chunks": [
         "main"
       ],
       "chunkNames": [
         "main"
+      ],
+      "info": {},
+      "emitted": true
+    },
+    {
+      "name": "vendors~main.js",
+      "size": 1427080,
+      "chunks": [
+        "vendors~main"
+      ],
+      "chunkNames": [
+        "vendors~main"
       ],
       "info": {},
       "emitted": true
@@ -36,9 +61,11 @@
   "entrypoints": {
     "main": {
       "chunks": [
+        "vendors~main",
         "main"
       ],
       "assets": [
+        "vendors~main.js",
         "main.js"
       ],
       "children": {},
@@ -48,38 +75,205 @@
   "namedChunkGroups": {
     "main": {
       "chunks": [
+        "vendors~main",
         "main"
       ],
       "assets": [
+        "vendors~main.js",
         "main.js"
       ],
-      "children": {},
-      "childAssets": {}
-    },
-    "lodash": {
-      "chunks": [],
-      "assets": [],
       "children": {},
       "childAssets": {}
     }
   },
   "chunks": [
     {
+      "id": 0,
+      "rendered": true,
+      "initial": false,
+      "entry": false,
+      "size": 171,
+      "names": [],
+      "files": [
+        "0.js"
+      ],
+      "hash": "8d003f282cc99772dd52",
+      "siblings": [],
+      "parents": [
+        "main",
+        "vendors~main"
+      ],
+      "children": [],
+      "childrenByOrder": {},
+      "modules": [
+        {
+          "id": "./src/click.js",
+          "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/click.js",
+          "name": "./src/click.js",
+          "index": 4,
+          "index2": 4,
+          "size": 171,
+          "cacheable": true,
+          "built": true,
+          "optional": false,
+          "prefetched": false,
+          "chunks": [
+            0
+          ],
+          "issuer": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
+          "issuerId": "./src/index.js",
+          "issuerName": "./src/index.js",
+          "issuerPath": [
+            {
+              "id": "./src/index.js",
+              "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
+              "name": "./src/index.js",
+              "profile": {
+                "factory": 20,
+                "building": 684
+              }
+            }
+          ],
+          "profile": {
+            "factory": 182,
+            "building": 98
+          },
+          "failed": false,
+          "errors": 0,
+          "warnings": 0,
+          "assets": [],
+          "reasons": [
+            {
+              "moduleId": "./src/index.js",
+              "moduleIdentifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
+              "module": "./src/index.js",
+              "moduleName": "./src/index.js",
+              "type": "import()",
+              "userRequest": "./click.js",
+              "loc": "13:2-22"
+            }
+          ],
+          "usedExports": true,
+          "providedExports": [
+            "default"
+          ],
+          "optimizationBailout": [],
+          "depth": 1,
+          "source": "function handleClick() {\n  const element = document.createElement('div');\n  element.innerHTML = 'ykk';\n  document.body.appendChild(element);\n}\n\nexport default handleClick;"
+        }
+      ],
+      "filteredModules": 0,
+      "origins": [
+        {
+          "moduleId": "./src/index.js",
+          "module": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
+          "moduleIdentifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
+          "moduleName": "./src/index.js",
+          "loc": "13:2-22",
+          "request": "./click.js",
+          "reasons": []
+        }
+      ]
+    },
+    {
       "id": "main",
       "rendered": true,
       "initial": true,
       "entry": true,
-      "size": 544093,
+      "size": 633,
       "names": [
         "main"
       ],
       "files": [
         "main.js"
       ],
-      "hash": "443934ecab89fa5efd20",
-      "siblings": [],
+      "hash": "636e172c46cc65dc0275",
+      "siblings": [
+        "vendors~main"
+      ],
       "parents": [],
-      "children": [],
+      "children": [
+        0
+      ],
+      "childrenByOrder": {},
+      "modules": [
+        {
+          "id": "./src/index.js",
+          "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
+          "name": "./src/index.js",
+          "index": 0,
+          "index2": 3,
+          "size": 633,
+          "cacheable": true,
+          "built": true,
+          "optional": false,
+          "prefetched": false,
+          "chunks": [
+            "main"
+          ],
+          "issuer": null,
+          "issuerId": null,
+          "issuerName": null,
+          "issuerPath": null,
+          "profile": {
+            "factory": 20,
+            "building": 684
+          },
+          "failed": false,
+          "errors": 0,
+          "warnings": 0,
+          "assets": [],
+          "reasons": [
+            {
+              "moduleId": null,
+              "moduleIdentifier": null,
+              "module": null,
+              "moduleName": null,
+              "type": "single entry",
+              "userRequest": "./src/index.js",
+              "loc": "main"
+            }
+          ],
+          "usedExports": true,
+          "providedExports": [],
+          "optimizationBailout": [],
+          "depth": 0,
+          "source": "import _ from \"lodash\"; // 假设有1MB\n// let element = document.createElement('div')\n// element.innerHTML = _.join(['Dell', 'Lee'], '-');\n// document.body.appendChild(element)\n// 懒加载\n// async function getComponent() {\n//   const {default: _} = await import(/* webpackChunkName:\"lodash\" */'lodash')\n//\n//   return element;\n// }\n\ndocument.addEventListener('click', () => {\n  import('./click.js').then(({\n    default: func\n  }) => {\n    func();\n  });\n}); // document.addEventListener('click', () => {\n//   const element = document.createElement('div')\n//   element.innerHTML = 'ykk'\n//   document.body.appendChild(element)\n// })"
+        }
+      ],
+      "filteredModules": 0,
+      "origins": [
+        {
+          "module": "",
+          "moduleIdentifier": "",
+          "moduleName": "",
+          "loc": "main",
+          "request": "./src/index.js",
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "id": "vendors~main",
+      "rendered": true,
+      "initial": true,
+      "entry": false,
+      "reason": "split chunk (cache group: vendors) (name: vendors~main)",
+      "size": 543532,
+      "names": [
+        "vendors~main"
+      ],
+      "files": [
+        "vendors~main.js"
+      ],
+      "hash": "94c6a90061c9820e0081",
+      "siblings": [
+        "main"
+      ],
+      "parents": [],
+      "children": [
+        0
+      ],
       "childrenByOrder": {},
       "modules": [
         {
@@ -94,7 +288,7 @@
           "optional": false,
           "prefetched": false,
           "chunks": [
-            "main"
+            "vendors~main"
           ],
           "issuer": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
           "issuerId": "./src/index.js",
@@ -105,14 +299,14 @@
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
               "name": "./src/index.js",
               "profile": {
-                "factory": 39,
-                "building": 1084
+                "factory": 20,
+                "building": 684
               }
             }
           ],
           "profile": {
-            "factory": 352,
-            "building": 135
+            "factory": 182,
+            "building": 98
           },
           "failed": false,
           "errors": 0,
@@ -127,18 +321,9 @@
               "type": "harmony side effect evaluation",
               "userRequest": "lodash",
               "loc": "1:0-23"
-            },
-            {
-              "moduleId": "./src/index.js",
-              "moduleIdentifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
-              "module": "./src/index.js",
-              "moduleName": "./src/index.js",
-              "type": "import()",
-              "userRequest": "lodash",
-              "loc": "10:12-12:11"
             }
           ],
-          "usedExports": true,
+          "usedExports": false,
           "providedExports": null,
           "optimizationBailout": [],
           "depth": 1,
@@ -156,7 +341,7 @@
           "optional": false,
           "prefetched": false,
           "chunks": [
-            "main"
+            "vendors~main"
           ],
           "issuer": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/lodash/lodash.js",
           "issuerId": "./node_modules/lodash/lodash.js",
@@ -167,8 +352,8 @@
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
               "name": "./src/index.js",
               "profile": {
-                "factory": 39,
-                "building": 1084
+                "factory": 20,
+                "building": 684
               }
             },
             {
@@ -176,14 +361,14 @@
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/lodash/lodash.js",
               "name": "./node_modules/lodash/lodash.js",
               "profile": {
-                "factory": 352,
-                "building": 135
+                "factory": 182,
+                "building": 98
               }
             }
           ],
           "profile": {
-            "factory": 7,
-            "building": 3
+            "factory": 2,
+            "building": 9
           },
           "failed": false,
           "errors": 0,
@@ -218,7 +403,7 @@
           "optional": false,
           "prefetched": false,
           "chunks": [
-            "main"
+            "vendors~main"
           ],
           "issuer": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/lodash/lodash.js",
           "issuerId": "./node_modules/lodash/lodash.js",
@@ -229,8 +414,8 @@
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
               "name": "./src/index.js",
               "profile": {
-                "factory": 39,
-                "building": 1084
+                "factory": 20,
+                "building": 684
               }
             },
             {
@@ -238,14 +423,14 @@
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/lodash/lodash.js",
               "name": "./node_modules/lodash/lodash.js",
               "profile": {
-                "factory": 352,
-                "building": 135
+                "factory": 182,
+                "building": 98
               }
             }
           ],
           "profile": {
-            "factory": 7,
-            "building": 3
+            "factory": 2,
+            "building": 9
           },
           "failed": false,
           "errors": 0,
@@ -267,49 +452,6 @@
           "optimizationBailout": [],
           "depth": 2,
           "source": "module.exports = function(module) {\n\tif (!module.webpackPolyfill) {\n\t\tmodule.deprecate = function() {};\n\t\tmodule.paths = [];\n\t\t// module.parent = undefined by default\n\t\tif (!module.children) module.children = [];\n\t\tObject.defineProperty(module, \"loaded\", {\n\t\t\tenumerable: true,\n\t\t\tget: function() {\n\t\t\t\treturn module.l;\n\t\t\t}\n\t\t});\n\t\tObject.defineProperty(module, \"id\", {\n\t\t\tenumerable: true,\n\t\t\tget: function() {\n\t\t\t\treturn module.i;\n\t\t\t}\n\t\t});\n\t\tmodule.webpackPolyfill = 1;\n\t}\n\treturn module;\n};\n"
-        },
-        {
-          "id": "./src/index.js",
-          "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
-          "name": "./src/index.js",
-          "index": 0,
-          "index2": 3,
-          "size": 561,
-          "cacheable": true,
-          "built": true,
-          "optional": false,
-          "prefetched": false,
-          "chunks": [
-            "main"
-          ],
-          "issuer": null,
-          "issuerId": null,
-          "issuerName": null,
-          "issuerPath": null,
-          "profile": {
-            "factory": 39,
-            "building": 1084
-          },
-          "failed": false,
-          "errors": 0,
-          "warnings": 0,
-          "assets": [],
-          "reasons": [
-            {
-              "moduleId": null,
-              "moduleIdentifier": null,
-              "module": null,
-              "moduleName": null,
-              "type": "single entry",
-              "userRequest": "./src/index.js",
-              "loc": "main"
-            }
-          ],
-          "usedExports": true,
-          "providedExports": [],
-          "optimizationBailout": [],
-          "depth": 0,
-          "source": "import _ from \"lodash\"; // 假设有1MB\n// let element = document.createElement('div')\n// element.innerHTML = _.join(['Dell', 'Lee'], '-');\n// document.body.appendChild(element)\n// 懒加载\n\nasync function getComponent() {\n  const {\n    default: _\n  } = await import(\n  /* webpackChunkName:\"lodash\" */\n  'lodash');\n  const element = document.createElement('div');\n  element.innerHTML = _.join(['y', 'kk'], '-');\n  return element;\n}\n\ndocument.addEventListener('click', () => {\n  getComponent().then(element => {\n    document.body.appendChild(element);\n  });\n});"
         }
       ],
       "filteredModules": 0,
@@ -338,7 +480,7 @@
       "optional": false,
       "prefetched": false,
       "chunks": [
-        "main"
+        "vendors~main"
       ],
       "issuer": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
       "issuerId": "./src/index.js",
@@ -349,14 +491,14 @@
           "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
           "name": "./src/index.js",
           "profile": {
-            "factory": 39,
-            "building": 1084
+            "factory": 20,
+            "building": 684
           }
         }
       ],
       "profile": {
-        "factory": 352,
-        "building": 135
+        "factory": 182,
+        "building": 98
       },
       "failed": false,
       "errors": 0,
@@ -371,18 +513,9 @@
           "type": "harmony side effect evaluation",
           "userRequest": "lodash",
           "loc": "1:0-23"
-        },
-        {
-          "moduleId": "./src/index.js",
-          "moduleIdentifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
-          "module": "./src/index.js",
-          "moduleName": "./src/index.js",
-          "type": "import()",
-          "userRequest": "lodash",
-          "loc": "10:12-12:11"
         }
       ],
-      "usedExports": true,
+      "usedExports": false,
       "providedExports": null,
       "optimizationBailout": [],
       "depth": 1,
@@ -400,7 +533,7 @@
       "optional": false,
       "prefetched": false,
       "chunks": [
-        "main"
+        "vendors~main"
       ],
       "issuer": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/lodash/lodash.js",
       "issuerId": "./node_modules/lodash/lodash.js",
@@ -411,8 +544,8 @@
           "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
           "name": "./src/index.js",
           "profile": {
-            "factory": 39,
-            "building": 1084
+            "factory": 20,
+            "building": 684
           }
         },
         {
@@ -420,14 +553,14 @@
           "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/lodash/lodash.js",
           "name": "./node_modules/lodash/lodash.js",
           "profile": {
-            "factory": 352,
-            "building": 135
+            "factory": 182,
+            "building": 98
           }
         }
       ],
       "profile": {
-        "factory": 7,
-        "building": 3
+        "factory": 2,
+        "building": 9
       },
       "failed": false,
       "errors": 0,
@@ -462,7 +595,7 @@
       "optional": false,
       "prefetched": false,
       "chunks": [
-        "main"
+        "vendors~main"
       ],
       "issuer": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/lodash/lodash.js",
       "issuerId": "./node_modules/lodash/lodash.js",
@@ -473,8 +606,8 @@
           "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
           "name": "./src/index.js",
           "profile": {
-            "factory": 39,
-            "building": 1084
+            "factory": 20,
+            "building": 684
           }
         },
         {
@@ -482,14 +615,14 @@
           "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/lodash/lodash.js",
           "name": "./node_modules/lodash/lodash.js",
           "profile": {
-            "factory": 352,
-            "building": 135
+            "factory": 182,
+            "building": 98
           }
         }
       ],
       "profile": {
-        "factory": 7,
-        "building": 3
+        "factory": 2,
+        "building": 9
       },
       "failed": false,
       "errors": 0,
@@ -513,12 +646,67 @@
       "source": "module.exports = function(module) {\n\tif (!module.webpackPolyfill) {\n\t\tmodule.deprecate = function() {};\n\t\tmodule.paths = [];\n\t\t// module.parent = undefined by default\n\t\tif (!module.children) module.children = [];\n\t\tObject.defineProperty(module, \"loaded\", {\n\t\t\tenumerable: true,\n\t\t\tget: function() {\n\t\t\t\treturn module.l;\n\t\t\t}\n\t\t});\n\t\tObject.defineProperty(module, \"id\", {\n\t\t\tenumerable: true,\n\t\t\tget: function() {\n\t\t\t\treturn module.i;\n\t\t\t}\n\t\t});\n\t\tmodule.webpackPolyfill = 1;\n\t}\n\treturn module;\n};\n"
     },
     {
+      "id": "./src/click.js",
+      "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/click.js",
+      "name": "./src/click.js",
+      "index": 4,
+      "index2": 4,
+      "size": 171,
+      "cacheable": true,
+      "built": true,
+      "optional": false,
+      "prefetched": false,
+      "chunks": [
+        0
+      ],
+      "issuer": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
+      "issuerId": "./src/index.js",
+      "issuerName": "./src/index.js",
+      "issuerPath": [
+        {
+          "id": "./src/index.js",
+          "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
+          "name": "./src/index.js",
+          "profile": {
+            "factory": 20,
+            "building": 684
+          }
+        }
+      ],
+      "profile": {
+        "factory": 182,
+        "building": 98
+      },
+      "failed": false,
+      "errors": 0,
+      "warnings": 0,
+      "assets": [],
+      "reasons": [
+        {
+          "moduleId": "./src/index.js",
+          "moduleIdentifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
+          "module": "./src/index.js",
+          "moduleName": "./src/index.js",
+          "type": "import()",
+          "userRequest": "./click.js",
+          "loc": "13:2-22"
+        }
+      ],
+      "usedExports": true,
+      "providedExports": [
+        "default"
+      ],
+      "optimizationBailout": [],
+      "depth": 1,
+      "source": "function handleClick() {\n  const element = document.createElement('div');\n  element.innerHTML = 'ykk';\n  document.body.appendChild(element);\n}\n\nexport default handleClick;"
+    },
+    {
       "id": "./src/index.js",
       "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
       "name": "./src/index.js",
       "index": 0,
       "index2": 3,
-      "size": 561,
+      "size": 633,
       "cacheable": true,
       "built": true,
       "optional": false,
@@ -531,8 +719,8 @@
       "issuerName": null,
       "issuerPath": null,
       "profile": {
-        "factory": 39,
-        "building": 1084
+        "factory": 20,
+        "building": 684
       },
       "failed": false,
       "errors": 0,
@@ -553,7 +741,7 @@
       "providedExports": [],
       "optimizationBailout": [],
       "depth": 0,
-      "source": "import _ from \"lodash\"; // 假设有1MB\n// let element = document.createElement('div')\n// element.innerHTML = _.join(['Dell', 'Lee'], '-');\n// document.body.appendChild(element)\n// 懒加载\n\nasync function getComponent() {\n  const {\n    default: _\n  } = await import(\n  /* webpackChunkName:\"lodash\" */\n  'lodash');\n  const element = document.createElement('div');\n  element.innerHTML = _.join(['y', 'kk'], '-');\n  return element;\n}\n\ndocument.addEventListener('click', () => {\n  getComponent().then(element => {\n    document.body.appendChild(element);\n  });\n});"
+      "source": "import _ from \"lodash\"; // 假设有1MB\n// let element = document.createElement('div')\n// element.innerHTML = _.join(['Dell', 'Lee'], '-');\n// document.body.appendChild(element)\n// 懒加载\n// async function getComponent() {\n//   const {default: _} = await import(/* webpackChunkName:\"lodash\" */'lodash')\n//\n//   return element;\n// }\n\ndocument.addEventListener('click', () => {\n  import('./click.js').then(({\n    default: func\n  }) => {\n    func();\n  });\n}); // document.addEventListener('click', () => {\n//   const element = document.createElement('div')\n//   element.innerHTML = 'ykk'\n//   document.body.appendChild(element)\n// })"
     }
   ],
   "filteredModules": 0,
@@ -644,8 +832,8 @@
               "issuerName": null,
               "issuerPath": null,
               "profile": {
-                "factory": 451,
-                "building": 690
+                "factory": 653,
+                "building": 65
               },
               "failed": false,
               "errors": 0,
@@ -690,14 +878,14 @@
                   "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/html-webpack-plugin/lib/loader.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.html",
                   "name": "./node_modules/html-webpack-plugin/lib/loader.js!./src/index.html",
                   "profile": {
-                    "factory": 451,
-                    "building": 690
+                    "factory": 653,
+                    "building": 65
                   }
                 }
               ],
               "profile": {
                 "factory": 2,
-                "building": 341
+                "building": 162
               },
               "failed": false,
               "errors": 0,
@@ -743,8 +931,8 @@
                   "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/html-webpack-plugin/lib/loader.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.html",
                   "name": "./node_modules/html-webpack-plugin/lib/loader.js!./src/index.html",
                   "profile": {
-                    "factory": 451,
-                    "building": 690
+                    "factory": 653,
+                    "building": 65
                   }
                 },
                 {
@@ -753,13 +941,13 @@
                   "name": "./node_modules/lodash/lodash.js",
                   "profile": {
                     "factory": 2,
-                    "building": 341
+                    "building": 162
                   }
                 }
               ],
               "profile": {
-                "factory": 144,
-                "building": 3
+                "factory": 111,
+                "building": 8
               },
               "failed": false,
               "errors": 0,
@@ -805,8 +993,8 @@
                   "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/html-webpack-plugin/lib/loader.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.html",
                   "name": "./node_modules/html-webpack-plugin/lib/loader.js!./src/index.html",
                   "profile": {
-                    "factory": 451,
-                    "building": 690
+                    "factory": 653,
+                    "building": 65
                   }
                 },
                 {
@@ -815,13 +1003,13 @@
                   "name": "./node_modules/lodash/lodash.js",
                   "profile": {
                     "factory": 2,
-                    "building": 341
+                    "building": 162
                   }
                 }
               ],
               "profile": {
-                "factory": 144,
-                "building": 3
+                "factory": 111,
+                "building": 8
               },
               "failed": false,
               "errors": 0,
@@ -878,8 +1066,8 @@
           "issuerName": null,
           "issuerPath": null,
           "profile": {
-            "factory": 451,
-            "building": 690
+            "factory": 653,
+            "building": 65
           },
           "failed": false,
           "errors": 0,
@@ -924,14 +1112,14 @@
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/html-webpack-plugin/lib/loader.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.html",
               "name": "./node_modules/html-webpack-plugin/lib/loader.js!./src/index.html",
               "profile": {
-                "factory": 451,
-                "building": 690
+                "factory": 653,
+                "building": 65
               }
             }
           ],
           "profile": {
             "factory": 2,
-            "building": 341
+            "building": 162
           },
           "failed": false,
           "errors": 0,
@@ -977,8 +1165,8 @@
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/html-webpack-plugin/lib/loader.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.html",
               "name": "./node_modules/html-webpack-plugin/lib/loader.js!./src/index.html",
               "profile": {
-                "factory": 451,
-                "building": 690
+                "factory": 653,
+                "building": 65
               }
             },
             {
@@ -987,13 +1175,13 @@
               "name": "./node_modules/lodash/lodash.js",
               "profile": {
                 "factory": 2,
-                "building": 341
+                "building": 162
               }
             }
           ],
           "profile": {
-            "factory": 144,
-            "building": 3
+            "factory": 111,
+            "building": 8
           },
           "failed": false,
           "errors": 0,
@@ -1039,8 +1227,8 @@
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/html-webpack-plugin/lib/loader.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.html",
               "name": "./node_modules/html-webpack-plugin/lib/loader.js!./src/index.html",
               "profile": {
-                "factory": 451,
-                "building": 690
+                "factory": 653,
+                "building": 65
               }
             },
             {
@@ -1049,13 +1237,13 @@
               "name": "./node_modules/lodash/lodash.js",
               "profile": {
                 "factory": 2,
-                "building": 341
+                "building": 162
               }
             }
           ],
           "profile": {
-            "factory": 144,
-            "building": 3
+            "factory": 111,
+            "building": 8
           },
           "failed": false,
           "errors": 0,
