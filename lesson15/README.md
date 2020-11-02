@@ -68,9 +68,51 @@ npm run serve --report
 npm run build --report
 ```
 
-# prefetching
+# prefetching && preloading
+
+关注代码使用率：一开始不会执行的代码不要加载出来，而是当交互了再去加载。
+
+webpack希望尽可能使用异步加载模快在第一次加载提高性能，而同步是第二次加载了增加缓存对性能的提升是有限的。
+
+```
+document.addEventListener('click', () => {
+  import('./click.js').then(({default:func}) => {
+    func()
+  })
+})
+
+```
+
+**注意** 但这样会存在一个问题，就是当用户点击交互了才下载代码可能会有一点小小的延迟，如何解决这个问题？
+
+解决方案就是 ： prefetching/preloading
+
+- prefetching 会等到核心先展示的代码加载完毕了，等宽带空闲再继续下载。
+
+只需要在代码添加如下内容即可：
+
+```
+document.addEventListener('click', () => {
+  import(/* webpackPrefetch:true */'./click.js').then(({default:func}) => {
+    func()
+  })
+})
+```
+
+当用户点击了，仍然会下载click.js文件，但是使用的时间会非常短，因为之前已经下载过了有了缓存了。
+
+- preloading 会和主的代码同时下载。
+
+```
+document.addEventListener('click', () => {
+  import(/* webpackPreload:true */'./click.js').then(({default:func}) => {
+    func()
+  })
+})
+```
+
+因此性能优化最好去考虑代码的使用率更高。
 
 
-# preloading
 
 

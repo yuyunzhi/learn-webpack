@@ -1,12 +1,10 @@
-Webpack Bundle Analyzer is started at http://127.0.0.1:8888
-Use Ctrl+C to close it
 {
   "errors": [],
   "warnings": [],
   "version": "4.44.2",
   "hash": "9735940acdc68f93138f",
-  "time": 1168,
-  "builtAt": 1604297650191,
+  "time": 833,
+  "builtAt": 1604298672214,
   "publicPath": "",
   "outputPath": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/dist",
   "assetsByChunkName": {
@@ -129,13 +127,13 @@ Use Ctrl+C to close it
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
               "name": "./src/index.js",
               "profile": {
-                "factory": 20,
-                "building": 684
+                "factory": 17,
+                "building": 367
               }
             }
           ],
           "profile": {
-            "factory": 182,
+            "factory": 184,
             "building": 98
           },
           "failed": false,
@@ -216,8 +214,8 @@ Use Ctrl+C to close it
           "issuerName": null,
           "issuerPath": null,
           "profile": {
-            "factory": 20,
-            "building": 684
+            "factory": 17,
+            "building": 367
           },
           "failed": false,
           "errors": 0,
@@ -299,13 +297,13 @@ Use Ctrl+C to close it
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
               "name": "./src/index.js",
               "profile": {
-                "factory": 20,
-                "building": 684
+                "factory": 17,
+                "building": 367
               }
             }
           ],
           "profile": {
-            "factory": 182,
+            "factory": 184,
             "building": 98
           },
           "failed": false,
@@ -352,8 +350,8 @@ Use Ctrl+C to close it
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
               "name": "./src/index.js",
               "profile": {
-                "factory": 20,
-                "building": 684
+                "factory": 17,
+                "building": 367
               }
             },
             {
@@ -361,14 +359,14 @@ Use Ctrl+C to close it
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/lodash/lodash.js",
               "name": "./node_modules/lodash/lodash.js",
               "profile": {
-                "factory": 182,
+                "factory": 184,
                 "building": 98
               }
             }
           ],
           "profile": {
-            "factory": 2,
-            "building": 9
+            "factory": 1,
+            "building": 3
           },
           "failed": false,
           "errors": 0,
@@ -414,8 +412,8 @@ Use Ctrl+C to close it
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
               "name": "./src/index.js",
               "profile": {
-                "factory": 20,
-                "building": 684
+                "factory": 17,
+                "building": 367
               }
             },
             {
@@ -423,14 +421,14 @@ Use Ctrl+C to close it
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/lodash/lodash.js",
               "name": "./node_modules/lodash/lodash.js",
               "profile": {
-                "factory": 182,
+                "factory": 184,
                 "building": 98
               }
             }
           ],
           "profile": {
-            "factory": 2,
-            "building": 9
+            "factory": 1,
+            "building": 3
           },
           "failed": false,
           "errors": 0,
@@ -491,13 +489,13 @@ Use Ctrl+C to close it
           "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
           "name": "./src/index.js",
           "profile": {
-            "factory": 20,
-            "building": 684
+            "factory": 17,
+            "building": 367
           }
         }
       ],
       "profile": {
-        "factory": 182,
+        "factory": 184,
         "building": 98
       },
       "failed": false,
@@ -544,8 +542,8 @@ Use Ctrl+C to close it
           "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
           "name": "./src/index.js",
           "profile": {
-            "factory": 20,
-            "building": 684
+            "factory": 17,
+            "building": 367
           }
         },
         {
@@ -553,14 +551,14 @@ Use Ctrl+C to close it
           "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/lodash/lodash.js",
           "name": "./node_modules/lodash/lodash.js",
           "profile": {
-            "factory": 182,
+            "factory": 184,
             "building": 98
           }
         }
       ],
       "profile": {
-        "factory": 2,
-        "building": 9
+        "factory": 1,
+        "building": 3
       },
       "failed": false,
       "errors": 0,
@@ -606,8 +604,8 @@ Use Ctrl+C to close it
           "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
           "name": "./src/index.js",
           "profile": {
-            "factory": 20,
-            "building": 684
+            "factory": 17,
+            "building": 367
           }
         },
         {
@@ -615,14 +613,14 @@ Use Ctrl+C to close it
           "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/lodash/lodash.js",
           "name": "./node_modules/lodash/lodash.js",
           "profile": {
-            "factory": 182,
+            "factory": 184,
             "building": 98
           }
         }
       ],
       "profile": {
-        "factory": 2,
-        "building": 9
+        "factory": 1,
+        "building": 3
       },
       "failed": false,
       "errors": 0,
@@ -668,13 +666,13 @@ Use Ctrl+C to close it
           "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/babel-loader/lib/index.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.js",
           "name": "./src/index.js",
           "profile": {
-            "factory": 20,
-            "building": 684
+            "factory": 17,
+            "building": 367
           }
         }
       ],
       "profile": {
-        "factory": 182,
+        "factory": 184,
         "building": 98
       },
       "failed": false,
@@ -719,8 +717,8 @@ Use Ctrl+C to close it
       "issuerName": null,
       "issuerPath": null,
       "profile": {
-        "factory": 20,
-        "building": 684
+        "factory": 17,
+        "building": 367
       },
       "failed": false,
       "errors": 0,
@@ -832,8 +830,8 @@ Use Ctrl+C to close it
               "issuerName": null,
               "issuerPath": null,
               "profile": {
-                "factory": 653,
-                "building": 65
+                "factory": 337,
+                "building": 60
               },
               "failed": false,
               "errors": 0,
@@ -878,14 +876,14 @@ Use Ctrl+C to close it
                   "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/html-webpack-plugin/lib/loader.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.html",
                   "name": "./node_modules/html-webpack-plugin/lib/loader.js!./src/index.html",
                   "profile": {
-                    "factory": 653,
-                    "building": 65
+                    "factory": 337,
+                    "building": 60
                   }
                 }
               ],
               "profile": {
                 "factory": 2,
-                "building": 162
+                "building": 172
               },
               "failed": false,
               "errors": 0,
@@ -931,8 +929,8 @@ Use Ctrl+C to close it
                   "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/html-webpack-plugin/lib/loader.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.html",
                   "name": "./node_modules/html-webpack-plugin/lib/loader.js!./src/index.html",
                   "profile": {
-                    "factory": 653,
-                    "building": 65
+                    "factory": 337,
+                    "building": 60
                   }
                 },
                 {
@@ -941,13 +939,13 @@ Use Ctrl+C to close it
                   "name": "./node_modules/lodash/lodash.js",
                   "profile": {
                     "factory": 2,
-                    "building": 162
+                    "building": 172
                   }
                 }
               ],
               "profile": {
-                "factory": 111,
-                "building": 8
+                "factory": 102,
+                "building": 2
               },
               "failed": false,
               "errors": 0,
@@ -993,8 +991,8 @@ Use Ctrl+C to close it
                   "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/html-webpack-plugin/lib/loader.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.html",
                   "name": "./node_modules/html-webpack-plugin/lib/loader.js!./src/index.html",
                   "profile": {
-                    "factory": 653,
-                    "building": 65
+                    "factory": 337,
+                    "building": 60
                   }
                 },
                 {
@@ -1003,13 +1001,13 @@ Use Ctrl+C to close it
                   "name": "./node_modules/lodash/lodash.js",
                   "profile": {
                     "factory": 2,
-                    "building": 162
+                    "building": 172
                   }
                 }
               ],
               "profile": {
-                "factory": 111,
-                "building": 8
+                "factory": 102,
+                "building": 2
               },
               "failed": false,
               "errors": 0,
@@ -1066,8 +1064,8 @@ Use Ctrl+C to close it
           "issuerName": null,
           "issuerPath": null,
           "profile": {
-            "factory": 653,
-            "building": 65
+            "factory": 337,
+            "building": 60
           },
           "failed": false,
           "errors": 0,
@@ -1112,14 +1110,14 @@ Use Ctrl+C to close it
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/html-webpack-plugin/lib/loader.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.html",
               "name": "./node_modules/html-webpack-plugin/lib/loader.js!./src/index.html",
               "profile": {
-                "factory": 653,
-                "building": 65
+                "factory": 337,
+                "building": 60
               }
             }
           ],
           "profile": {
             "factory": 2,
-            "building": 162
+            "building": 172
           },
           "failed": false,
           "errors": 0,
@@ -1165,8 +1163,8 @@ Use Ctrl+C to close it
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/html-webpack-plugin/lib/loader.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.html",
               "name": "./node_modules/html-webpack-plugin/lib/loader.js!./src/index.html",
               "profile": {
-                "factory": 653,
-                "building": 65
+                "factory": 337,
+                "building": 60
               }
             },
             {
@@ -1175,13 +1173,13 @@ Use Ctrl+C to close it
               "name": "./node_modules/lodash/lodash.js",
               "profile": {
                 "factory": 2,
-                "building": 162
+                "building": 172
               }
             }
           ],
           "profile": {
-            "factory": 111,
-            "building": 8
+            "factory": 102,
+            "building": 2
           },
           "failed": false,
           "errors": 0,
@@ -1227,8 +1225,8 @@ Use Ctrl+C to close it
               "identifier": "/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/node_modules/html-webpack-plugin/lib/loader.js!/Users/yuyunzhi/Desktop/Code/learn-webpack/lesson15/src/index.html",
               "name": "./node_modules/html-webpack-plugin/lib/loader.js!./src/index.html",
               "profile": {
-                "factory": 653,
-                "building": 65
+                "factory": 337,
+                "building": 60
               }
             },
             {
@@ -1237,13 +1235,13 @@ Use Ctrl+C to close it
               "name": "./node_modules/lodash/lodash.js",
               "profile": {
                 "factory": 2,
-                "building": 162
+                "building": 172
               }
             }
           ],
           "profile": {
-            "factory": 111,
-            "building": 8
+            "factory": 102,
+            "building": 2
           },
           "failed": false,
           "errors": 0,
