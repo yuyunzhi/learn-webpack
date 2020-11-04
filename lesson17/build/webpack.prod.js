@@ -38,7 +38,11 @@ const prodConfig = {
       filename: "[name].css", // 表示直接引入的文件
       chunkFilename: "[id].css" // 间接引入的文件
     })
-  ]
+  ],
+  output: {
+    filename: '[name].[contentHash].js',
+    chunkFilename: '[name].[contentHash].js'
+  }
 }
 
 module.exports = merge(commonConfig, prodConfig);

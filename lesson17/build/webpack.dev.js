@@ -70,9 +70,9 @@ const devConfig = {
     //   logLevel: 'info' // 日志级别。可以是'信息'，'警告'，'错误'或'沉默'。
     // })
 	],
-  output:{
-    filename: '[name].js',
-    chunkFilename: '[name].chunk.js',// 间接引入打包的走这个地方
+  output: {
+    filename: '[name].[contentHash].js',
+    chunkFilename: '[name].[contentHash].js'
   }
 }
 

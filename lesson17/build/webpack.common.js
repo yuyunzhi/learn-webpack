@@ -44,13 +44,13 @@ module.exports = {
         vendors: {
           test: /[\\/]node_modules[\\/]/, // 如果在node_modules里，那么会打包到vendors.js
           priority: -10, // 比如jquery 符合vendors 也符合default，值越大，说明优先级更大
-          filename:'vendors.js' // 表示所有的第三方打包到一个叫vendors.js文件
+          filename:'vendors.[contentHash].js' // 表示所有的第三方打包到一个叫vendors.js文件
         },
         default: { // 如果是引入自己在项目里写的模块引入走这里，非node_modules
           // minChunks: 2,
           priority: -20,// 值越大，说明优先级更大
           reuseExistingChunk: true, // 如果代码已经打包过，重复引用时就不会再分割打包，而是复用之前的。
-          filename: 'common.js'
+          filename: 'common.[contentHash].js'
         }
       }
     }
