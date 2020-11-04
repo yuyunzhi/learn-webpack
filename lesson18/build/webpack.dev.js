@@ -71,8 +71,8 @@ const devConfig = {
     // })
 	],
   output: {
-    filename: '[name].js',
-    chunkFilename: '[name].js'
+    filename: '[name].[contentHash].js',
+    chunkFilename: '[name].[contentHash].js'
   }
 }
 
