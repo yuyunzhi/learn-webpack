@@ -584,3 +584,324 @@ webpack.prod.js
 ```
 
 **注意**：先解析react的语法，然后再把ES6语法解析为ES5。presets是自下而上，自右边而左来解析的
+
+# LazyLoading 懒加载 Chunk是什么？
+
+我们可以使用懒加载的方式引入模块，比如说当触发了某个条件，在通过import的方式引入模块。这样可以使得项目的性能会更加的好。
+
+**举个例子**：
+
+当我们点击页面的时候，才会去引入lodash模块，这里 import()返回的是promise
+
+```
+async function getComponent() {
+  const {default: _} = await import(/* webpackChunkName:"lodash" */'lodash')
+  const element = document.createElement('div')
+  element.innerHTML = _.join(['y', 'kk'], '-');
+  return element;
+}
+
+document.addEventListener('click', () => {
+  getComponent().then(element => {
+    document.body.appendChild(element)
+  })
+})
+```
+同样的路由懒加载的意思，表示当我们监听到路由变化了，才会去引入对应的页面模块。
+
+因此可以知道，Chunk是什么？打包生成几个JS文件，就是几个Chunk
+
+
+# Shimming
+
+Shimming：在打包过程中，有时候需要对代码兼容。这种兼容不局限于浏览器高低版本。
+
+举个例子
+
+每个文件都是一个模块，每个模块都应该引入自己的依赖才能使用该依赖。
+
+```
+import $ from 'jquery'
+export function setBackground(){
+  $('body').css('background','red')
+}
+```
+
+但是这样的话，每个文件都要写一遍
+
+```
+import $ from 'jquery'
+```
+
+因此可以使用垫片的方式来自动配置
+
+```
+plugins:[
+    new webpack.ProvidePlugin({
+      $:'jquery',
+      _join:['lodash','join']
+    })
+]
+```
+
+当我们配置了上述内容，那么意味着当运行代码的时候看到
+
+- $这个符号就会自动去node_modules里引入jquery。他的原理就是自动帮我们添加了import的步骤。
+- 看到_join就会自动找到 lodash里join的方法
+
+于是我们可以直接这些一个文件模块使用
+
+```
+export function setBackground(){
+  $('body').css('background', _join(['green'], ''))
+}
+```
+
+
+# webpack与浏览器缓存（caching）
+
+当我们打包生成了3个文件
+
+```
+index.html
+main.js
+vendors.js
+```
+
+客户端从服务端拿到了两个js文件，会保存在浏览器里。客户端刷新后浏览器会先从缓存里获取。
+当开发修改了代码，重新打包，生成了上述三个同名文件时，用户刷新后仍然是原来的代码并没有更新。
+
+**这样如何解决呢？**
+
+### 1、打包文件添加contentHash
+
+开发环境因为是热更新的，所以本地调试可以不添加，
+生产环境在output里改为
+
+```
+output: {
+    filename: '[name].[contentHash].js',
+    chunkFilename: '[name].[contentHash].js'
+}
+```
+
+**contentHash** 表示只要不改变源代码的内容，那么contentHash所产生的hash值是不会变的。如果代码是分割成不同的chunk，某个chunk没有修改，该chunk的文件名contentHash也不会修改
+
+同时做了代码分割的参数最好也配置一下
+
+```
+optimization.splitChunks.cacheGroup.vendors.filename = 'vendors.[contentHash].js'
+```
+
+### 2、对老版本的兼容
+
+可能老的版本即使不改内容，contentHash值也会改变，这个时候可以配置
+
+```
+optimization: {
+    runtimeChunk:{
+      name:'runtime'
+    }
+}
+```
+
+**新版本添加这个runtimeChunk也是没有问题的**，此时打包会多出一个runtime.xxxxxxx.js文件
+
+这是怎么回事呢？
+
+因为在旧的webpack版本里main.js（业务逻辑） 和 vendors.js（第三方库） 之间是存在关联的，这部分的处理代码放在mainfest,虽然没有改变代码，但在旧版本的webpack里 mainfest 包和包之间的关系每次打包可能会变化，当我们配置了runtimeChunk的时候就把mainfest这块关系相关的代码抽离出来了放在runtime.js里
+
+因此这样就解决了这个兼容老版本的问题。
+
+# 对CSS代码分割
+
+正常打包的话，会把CSS文件一起打包的main.js文件，如何进行CSS代码分割呢？
+
+### 1、使用一个插件：mini-css-extract-plugin
+
+但这个插件有一个缺点，目前不支持热更新，所以适合线上环境做打包
+
+配置方式安装依赖
+
+```
+yarn add mini-css-extract-plugin
+```
+
+**在生产环境**的webpack.config.js配置
+
+```
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
+  module:{
+    rules:[
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2
+            }
+          },
+          'sass-loader',
+          'postcss-loader'
+        ]
+      }, {
+        test: /\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader'
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "[name].css", //index.html直接引入的文件
+      chunkFilename: "id.css" // 间接引用的文件
+    })
+  ]
+```
+
+**注意** 如果此时使用了tree shaking 看看 package.json 里 sideEffects 配置。如果为false那么css代码是没有分割的。需要把css tree shaking排除在外。修改如下：
+
+```
+ "sideEffects": [
+    "*.css"
+  ],
+```
+
+### 2、接下来对合并的CSS代码压缩
+
+安装依赖
+
+```
+yarn add optimize-css-assets-webpack-plugin -D
+```
+
+生产环境
+
+```
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+
+optimization:{
+    minimizer:[new OptimizeCSSAssetsPlugin({})]
+}
+
+```
+
+# 打包分析
+
+
+生成webpack打包分析json
+
+```
+webpack --profile --json > stats.json --config ./build/webpack.dev.js
+```
+
+然后把生成的stats.json放入相关的分析网站就可以看到可视化的数据。当然也可以配置analyzer
+
+安装依赖
+
+```
+npm install webpack-bundle-analyzer --save-dev
+```
+
+在webpack.config.js配置
+
+```
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+ 
+module.exports = {
+  ...
+  configureWebpack: {
+    plugins: [
+        new BundleAnalyzerPlugin({
+                    //  可以是`server`，`static`或`disabled`。
+                    //  在`server`模式下，分析器将启动HTTP服务器来显示软件包报告。
+                    //  在“静态”模式下，会生成带有报告的单个HTML文件。
+                    //  在`disabled`模式下，你可以使用这个插件来将`generateStatsFile`设置为`true`来生成Webpack Stats JSON文件。
+                    analyzerMode: 'server',
+                    //  将在“服务器”模式下使用的主机启动HTTP服务器。
+                    analyzerHost: '127.0.0.1',
+                    //  将在“服务器”模式下使用的端口启动HTTP服务器。
+                    analyzerPort: 8888, 
+                    //  路径捆绑，将在`static`模式下生成的报告文件。
+                    //  相对于捆绑输出目录。
+                    reportFilename: 'report.html',
+                    //  模块大小默认显示在报告中。
+                    //  应该是`stat`，`parsed`或者`gzip`中的一个。
+                    //  有关更多信息，请参见“定义”一节。
+                    defaultSizes: 'parsed',
+                    //  在默认浏览器中自动打开报告
+                    openAnalyzer: true,
+                    //  如果为true，则Webpack Stats JSON文件将在bundle输出目录中生成
+                    generateStatsFile: false, 
+                    //  如果`generateStatsFile`为`true`，将会生成Webpack Stats JSON文件的名字。
+                    //  相对于捆绑输出目录。
+                    statsFilename: 'stats.json',
+                    //  stats.toJson（）方法的选项。
+                    //  例如，您可以使用`source：false`选项排除统计文件中模块的来源。
+                    //  在这里查看更多选项：https：  //github.com/webpack/webpack/blob/webpack-1/lib/Stats.js#L21
+                    statsOptions: null,
+                    logLevel: 'info' // 日志级别。可以是'信息'，'警告'，'错误'或'沉默'。
+        })
+    ]
+  }, 
+  ...
+};
+```
+
+使用方式 在打包或者启动的时候加 --report
+
+```
+npm run serve --report
+npm run build --report
+```
+
+# prefetching && preloading
+
+关注代码使用率：一开始不会执行的代码不要加载出来，而是当交互了再去加载。
+
+webpack希望尽可能使用异步加载模快在第一次加载提高性能，而同步是第二次加载了增加缓存对性能的提升是有限的。
+
+```
+document.addEventListener('click', () => {
+  import('./click.js').then(({default:func}) => {
+    func()
+  })
+})
+
+```
+
+**注意** 但这样会存在一个问题，就是当用户点击交互了才下载代码可能会有一点小小的延迟，如何解决这个问题？
+
+解决方案就是 ： prefetching/preloading
+
+- prefetching 会等到核心先展示的代码加载完毕了，等宽带空闲再继续下载。
+
+只需要在代码添加如下内容即可：
+
+```
+document.addEventListener('click', () => {
+  import(/* webpackPrefetch:true */'./click.js').then(({default:func}) => {
+    func()
+  })
+})
+```
+
+当用户点击了，仍然会下载click.js文件，但是使用的时间会非常短，因为之前已经下载过了有了缓存了。
+
+- preloading 会和主的代码同时下载。
+
+```
+document.addEventListener('click', () => {
+  import(/* webpackPreload:true */'./click.js').then(({default:func}) => {
+    func()
+  })
+})
+```
+
+因此性能优化最好去考虑代码的使用率更高。
