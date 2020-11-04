@@ -37,6 +37,9 @@ module.exports = {
     })
   ],
   optimization: {
+    runtimeChunk:{
+      name:'runtime'
+    },
     usedExports: true, // tree shaking 使用
     splitChunks: {
       chunks: 'all',
