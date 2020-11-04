@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-
+const webpack = require('webpack')
 module.exports = {
   entry: {
     main: './src/index.js'
@@ -10,7 +10,11 @@ module.exports = {
     rules: [{
       test: /\.js$/,
       exclude: /node_modules/,
-      loader: 'babel-loader',
+      use:[
+        {
+          loader:'babel-loader'
+        }
+      ]
     }, {
       test: /\.(jpg|png|gif)$/,
       use: {
@@ -34,6 +38,10 @@ module.exports = {
     }),
     new CleanWebpackPlugin(['../dist'], {
       root: path.resolve(__dirname, '../')
+    }),
+    new webpack.ProvidePlugin({
+      $:'jquery',
+      _join:['lodash','join']
     })
   ],
   optimization: {
