@@ -2,7 +2,6 @@
 
 webpack目前是前端常用的工程化工具了。它可以帮助我们自动化构建打包各类的资源，极大的提高了我们打包代码的效率。在webpack看来，所有的资源文件都是模块(module),只是处理的方式不同。
 
-
 ## 一、初探webpack
 
 ### 1、安装webpack
@@ -585,7 +584,248 @@ webpack.prod.js
 
 **注意**：先解析react的语法，然后再把ES6语法解析为ES5。presets是自下而上，自右边而左来解析的
 
-# LazyLoading 懒加载 Chunk是什么？
+# 十、Tree Shaking
+
+### 1、什么是Tree Shaking
+
+表示 只引入需要的模块里的代码，没有使用的是不会打包
+
+```
+import { add } from './math.js';
+add(1, 2);
+```
+
+math.js里有两个方法，如果使用了Tree Shaking 那么只会打包add方法
+
+### 2、如何配置
+
+webpack.prod.js 生成环境不需要配置这个
+
+```
+optimization: { // 使用tree shaking
+     usedExports: true
+}
+```
+
+package.json
+
+```
+"sideEffects": false, // 表示对所有的模块都要使用 tree shaking
+"sideEffects":["@babel/polly-fill"，"*.css"] //表示排除@babel/polly-fill ,排除所有的css文件 其余import 模块都使用 tree shaking
+```
+
+**注意**如果是开发环境development tree shaking 会不生效，因为调试的话sourceMap行数会不准，生产环境production就会生效
+
+# 十一、Production Development
+
+### 1、如何切换开发环境和生产环境webpack配置
+
+- 创建生产环境文件 ./build/webpack.prod.js
+- 创建开发环境文件 ./build/webpack.dev.js
+- 创建公共的代码文件 ./build/webpack.common.js
+
+使用插件 webpack-merge 把配置文件合并
+
+### 2、配置打包命令
+
+package.json
+
+```
+"scripts": {
+    "dev": "webpack-dev-server --config ./build/webpack.dev.js", // 启动热更新，选择dev配置文件
+    "build": "webpack --config ./build/webpack.prod.js" // 直接打包，走prod配置文件
+}
+```
+
+# 十二、Code Splitting
+
+### 第一种方式
+
+```
+import _ from "lodash";  // 假设lodash有1MB
+
+// 假设业务代码有1MB
+console.log(_.join(['a', 'd', 'c'],"***"))
+console.log(_.join(['a', 'b', 'c'],"***"))
+```
+
+- 首次访问页面，加载main.js 2MB
+- 导致打包文件会很大，加载时间会很长
+- 当我修改了代码，重新打包 main.js 2MB。用户重新访问我们的页面，又要加载2MB内容
+
+**优点**：不用配置什么代码，正常使用引入即可
+**缺点**：用户需要重新加载页面，性能不好
+
+### 第二种方式
+
+```
+import _ from "lodash"  // 假设lodash有1MB
+window._ = _
+```
+
+```
+// 假设业务代码有1MB
+console.log(_.join(['a', 'd', 'c'],"***"))
+console.log(_.join(['a', 'b', 'c'],"***"))
+```
+
+webpack.config.js
+
+```
+entry: {
+  lodash: './src/lodash.js',
+  main: './src/index.js'
+}
+```
+
+- 首次访问页面，加载 main.js: 被拆成lodash.js 1MB 和 业务代码main.js 1MB
+- 此时修改了业务代码，用户是不需要重新加载lodash代码的。只需要重新加载main.js
+
+优点：可以有效提提高代码运行的速度、用户体验提高、性能提高
+缺点：需要手动拆分页面的代码，不够智能
+
+### 第三种方式:同步方式
+
+webpack.config.js
+```
+optimization:{
+	  splitChunks:{
+	    chunks:'all'
+    }
+}
+```
+
+```
+import _ from "lodash";  // 假设有1MB
+
+console.log(_.join(['a', 'd', 'c'],"***"))
+// 此处省略10万行业务逻辑
+console.log(_.join(['a', 'b', 'c'],"***"))
+
+```
+
+优点：相比第二种方式，可以自动拆分，打包引入 main.js 和 vendors~main.js
+**注意** 这是同步引入
+
+
+### 第四种方式：异步方式
+
+安装插件
+
+```
+yarn add -D babel-plugin-dynamic-import-webpack
+```
+
+.babelrc
+
+```
+"plugins": ["babel-plugin-dynamic-import-webpack"]
+```
+
+异步代码如下
+
+```
+function getComponent(){
+  return import('lodash').then(({default:_})=>{
+    let element = document.createElement('div')
+    element.innerHTML = _.join(['Dell','Lee'],'-');
+    return element;
+  })
+}
+
+getComponent().then(ele=>{
+  document.body.appendChild(ele)
+})
+```
+
+**注意**：异步代码import引入的模块，无需配置额外的webpack.config.js，会自动引入
+
+# 十三、SplitChunksPlugin 配置参数详情
+
+### webpackChunkName
+
+修改第三方打包的文件的名字
+
+安装官方的依赖
+
+```
+npm install --save-dev @babel/plugin-syntax-dynamic-import
+```
+
+.babelrc
+
+```
+"plugins": ["@babel/plugin-syntax-dynamic-import"]
+```
+
+项目代码里添加名字 /* webpackChunkName:"lodash" */
+
+```
+function getComponent(){
+  return import(/* webpackChunkName:"lodash" */'lodash').then(({default:_})=>{
+    let element = document.createElement('div')
+    element.innerHTML = _.join(['Dell','Lee'],'-');
+    return element;
+  })
+}
+
+getComponent().then(ele=>{
+  document.body.appendChild(ele)
+})
+```
+
+**注意**：生成的代码文件为 ./dist/vendors~lodash.js
+
+如果生成的代码文件不想加入 vendors~ ,而是直接lodash.js
+
+那么配置webpack.config.js
+
+```
+optimization:{
+  splitChunks:{
+    chunks:'all',
+    cacheGroups:{ // 表示打包的文件是否要带vendors,无论同步或者异步
+        vendors:false,
+        default:false
+    }
+  }
+}
+```
+
+### 详细的splitChunks的参数功能
+
+```
+optimization: {
+    splitChunks: {
+      chunks: 'all', // async 表示只对异步代码分割，initial 表示只对同步代码分割，all的话是所有同时会走到cacheGroups.vendors
+      minSize: 30000, // 表示最小模块大于30000个字节才会做代码分割
+      // maxSize: 50000, // 如果拆分的代码大小超过50000,会进行二次拆分，一般配置的比较少
+      minChunks: 1,//引入几次才分割打包，如果只引入1次就分割，如果是2表示必须大于等于2次才做代码分割
+      maxAsyncRequests: 5,// 表示不能超过5个模块分割，超过后面的模块就不分割了
+      maxInitialRequests: 3,// 表示整个网站首页或入口文件 如果做代码分割不超过3个
+      automaticNameDelimiter: '~', //组和文件名链接符号 vendors~main.js
+      name: true,// 表示要更新名字，一般是不需要改变的
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/, // 如果在node_modules里，那么会打包到vendors.js
+          priority: -10, // 比如jquery 符合vendors 也符合default，值越大，说明优先级更大
+          filename:'vendors.js' // 表示所有的第三方打包到一个叫vendors.js文件
+        },
+        default: { // 如果是引入自己在项目里写的模块引入走这里，非node_modules
+          // minChunks: 2,
+          priority: -20,// 值越大，说明优先级更大
+          reuseExistingChunk: true, // 如果代码已经打包过，重复引用时就不会再分割打包，而是复用之前的。
+          filename: 'common.js'
+        }
+      }
+    }
+  },
+```
+
+这里要**注意**
+- 如果是引入同步代码不会立刻分割，而是会走cacheGroups，根据实际情况来分割
+
+# 十四、LazyLoading 懒加载 Chunk是什么？
 
 我们可以使用懒加载的方式引入模块，比如说当触发了某个条件，在通过import的方式引入模块。这样可以使得项目的性能会更加的好。
 
@@ -611,109 +851,76 @@ document.addEventListener('click', () => {
 
 因此可以知道，Chunk是什么？打包生成几个JS文件，就是几个Chunk
 
+# 十五、打包分析
 
-# Shimming
 
-Shimming：在打包过程中，有时候需要对代码兼容。这种兼容不局限于浏览器高低版本。
-
-举个例子
-
-每个文件都是一个模块，每个模块都应该引入自己的依赖才能使用该依赖。
+生成webpack打包分析json
 
 ```
-import $ from 'jquery'
-export function setBackground(){
-  $('body').css('background','red')
-}
+webpack --profile --json > stats.json --config ./build/webpack.dev.js
 ```
 
-但是这样的话，每个文件都要写一遍
+然后把生成的stats.json放入相关的分析网站就可以看到可视化的数据。当然也可以配置analyzer
+
+安装依赖
 
 ```
-import $ from 'jquery'
+npm install webpack-bundle-analyzer --save-dev
 ```
 
-因此可以使用垫片的方式来自动配置
+在webpack.config.js配置
 
 ```
-plugins:[
-    new webpack.ProvidePlugin({
-      $:'jquery',
-      _join:['lodash','join']
-    })
-]
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+ 
+module.exports = {
+  ...
+  configureWebpack: {
+    plugins: [
+        new BundleAnalyzerPlugin({
+                    //  可以是`server`，`static`或`disabled`。
+                    //  在`server`模式下，分析器将启动HTTP服务器来显示软件包报告。
+                    //  在“静态”模式下，会生成带有报告的单个HTML文件。
+                    //  在`disabled`模式下，你可以使用这个插件来将`generateStatsFile`设置为`true`来生成Webpack Stats JSON文件。
+                    analyzerMode: 'server',
+                    //  将在“服务器”模式下使用的主机启动HTTP服务器。
+                    analyzerHost: '127.0.0.1',
+                    //  将在“服务器”模式下使用的端口启动HTTP服务器。
+                    analyzerPort: 8888, 
+                    //  路径捆绑，将在`static`模式下生成的报告文件。
+                    //  相对于捆绑输出目录。
+                    reportFilename: 'report.html',
+                    //  模块大小默认显示在报告中。
+                    //  应该是`stat`，`parsed`或者`gzip`中的一个。
+                    //  有关更多信息，请参见“定义”一节。
+                    defaultSizes: 'parsed',
+                    //  在默认浏览器中自动打开报告
+                    openAnalyzer: true,
+                    //  如果为true，则Webpack Stats JSON文件将在bundle输出目录中生成
+                    generateStatsFile: false, 
+                    //  如果`generateStatsFile`为`true`，将会生成Webpack Stats JSON文件的名字。
+                    //  相对于捆绑输出目录。
+                    statsFilename: 'stats.json',
+                    //  stats.toJson（）方法的选项。
+                    //  例如，您可以使用`source：false`选项排除统计文件中模块的来源。
+                    //  在这里查看更多选项：https：  //github.com/webpack/webpack/blob/webpack-1/lib/Stats.js#L21
+                    statsOptions: null,
+                    logLevel: 'info' // 日志级别。可以是'信息'，'警告'，'错误'或'沉默'。
+        })
+    ]
+  }, 
+  ...
+};
 ```
 
-当我们配置了上述内容，那么意味着当运行代码的时候看到
-
-- $这个符号就会自动去node_modules里引入jquery。他的原理就是自动帮我们添加了import的步骤。
-- 看到_join就会自动找到 lodash里join的方法
-
-于是我们可以直接这些一个文件模块使用
+使用方式 在打包或者启动的时候加 --report
 
 ```
-export function setBackground(){
-  $('body').css('background', _join(['green'], ''))
-}
+npm run serve --report
+npm run build --report
 ```
 
-
-# webpack与浏览器缓存（caching）
-
-当我们打包生成了3个文件
-
-```
-index.html
-main.js
-vendors.js
-```
-
-客户端从服务端拿到了两个js文件，会保存在浏览器里。客户端刷新后浏览器会先从缓存里获取。
-当开发修改了代码，重新打包，生成了上述三个同名文件时，用户刷新后仍然是原来的代码并没有更新。
-
-**这样如何解决呢？**
-
-### 1、打包文件添加contentHash
-
-开发环境因为是热更新的，所以本地调试可以不添加，
-生产环境在output里改为
-
-```
-output: {
-    filename: '[name].[contentHash].js',
-    chunkFilename: '[name].[contentHash].js'
-}
-```
-
-**contentHash** 表示只要不改变源代码的内容，那么contentHash所产生的hash值是不会变的。如果代码是分割成不同的chunk，某个chunk没有修改，该chunk的文件名contentHash也不会修改
-
-同时做了代码分割的参数最好也配置一下
-
-```
-optimization.splitChunks.cacheGroup.vendors.filename = 'vendors.[contentHash].js'
-```
-
-### 2、对老版本的兼容
-
-可能老的版本即使不改内容，contentHash值也会改变，这个时候可以配置
-
-```
-optimization: {
-    runtimeChunk:{
-      name:'runtime'
-    }
-}
-```
-
-**新版本添加这个runtimeChunk也是没有问题的**，此时打包会多出一个runtime.xxxxxxx.js文件
-
-这是怎么回事呢？
-
-因为在旧的webpack版本里main.js（业务逻辑） 和 vendors.js（第三方库） 之间是存在关联的，这部分的处理代码放在mainfest,虽然没有改变代码，但在旧版本的webpack里 mainfest 包和包之间的关系每次打包可能会变化，当我们配置了runtimeChunk的时候就把mainfest这块关系相关的代码抽离出来了放在runtime.js里
-
-因此这样就解决了这个兼容老版本的问题。
-
-# 对CSS代码分割
+# 十六、对CSS代码分割
 
 正常打包的话，会把CSS文件一起打包的main.js文件，如何进行CSS代码分割呢？
 
@@ -792,116 +999,105 @@ optimization:{
 
 ```
 
-# 打包分析
 
+# 十七、webpack与浏览器缓存（caching）
 
-生成webpack打包分析json
-
-```
-webpack --profile --json > stats.json --config ./build/webpack.dev.js
-```
-
-然后把生成的stats.json放入相关的分析网站就可以看到可视化的数据。当然也可以配置analyzer
-
-安装依赖
+当我们打包生成了
 
 ```
-npm install webpack-bundle-analyzer --save-dev
+index.html
+main.js
+vendors.js
 ```
 
-在webpack.config.js配置
+客户端从服务端拿到了两个js文件，会保存在浏览器里。客户端刷新后浏览器会先从缓存里获取。
+当开发修改了代码，重新打包，生成了上述三个同名文件时，用户刷新后仍然是原来的代码并没有更新。
+**这样如何解决呢？**
+
+### 打包文件添加contentHash
+
+开发环境因为是热更新的，所以本地调试可以不添加，
+生产环境在output里改为
 
 ```
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
- 
-module.exports = {
-  ...
-  configureWebpack: {
-    plugins: [
-        new BundleAnalyzerPlugin({
-                    //  可以是`server`，`static`或`disabled`。
-                    //  在`server`模式下，分析器将启动HTTP服务器来显示软件包报告。
-                    //  在“静态”模式下，会生成带有报告的单个HTML文件。
-                    //  在`disabled`模式下，你可以使用这个插件来将`generateStatsFile`设置为`true`来生成Webpack Stats JSON文件。
-                    analyzerMode: 'server',
-                    //  将在“服务器”模式下使用的主机启动HTTP服务器。
-                    analyzerHost: '127.0.0.1',
-                    //  将在“服务器”模式下使用的端口启动HTTP服务器。
-                    analyzerPort: 8888, 
-                    //  路径捆绑，将在`static`模式下生成的报告文件。
-                    //  相对于捆绑输出目录。
-                    reportFilename: 'report.html',
-                    //  模块大小默认显示在报告中。
-                    //  应该是`stat`，`parsed`或者`gzip`中的一个。
-                    //  有关更多信息，请参见“定义”一节。
-                    defaultSizes: 'parsed',
-                    //  在默认浏览器中自动打开报告
-                    openAnalyzer: true,
-                    //  如果为true，则Webpack Stats JSON文件将在bundle输出目录中生成
-                    generateStatsFile: false, 
-                    //  如果`generateStatsFile`为`true`，将会生成Webpack Stats JSON文件的名字。
-                    //  相对于捆绑输出目录。
-                    statsFilename: 'stats.json',
-                    //  stats.toJson（）方法的选项。
-                    //  例如，您可以使用`source：false`选项排除统计文件中模块的来源。
-                    //  在这里查看更多选项：https：  //github.com/webpack/webpack/blob/webpack-1/lib/Stats.js#L21
-                    statsOptions: null,
-                    logLevel: 'info' // 日志级别。可以是'信息'，'警告'，'错误'或'沉默'。
-        })
-    ]
-  }, 
-  ...
-};
+output: {
+    filename: '[name].[contentHash].js',
+    chunkFilename: '[name].[contentHash].js'
+}
 ```
 
-使用方式 在打包或者启动的时候加 --report
+**contentHash** 表示只要不改变源代码的内容，那么contentHash所产生的hash值是不会变的。如果代码是分割成不同的chunk，某个chunk没有修改，该chunk的文件名contentHash也不会修改
+
+同时做了代码分割的参数最好也配置一下
 
 ```
-npm run serve --report
-npm run build --report
+optimization.splitChunks.cacheGroup.vendors.filename = 'vendors.[contentHash].js'
 ```
 
-# prefetching && preloading
+### 对老版本的兼容
 
-关注代码使用率：一开始不会执行的代码不要加载出来，而是当交互了再去加载。
-
-webpack希望尽可能使用异步加载模快在第一次加载提高性能，而同步是第二次加载了增加缓存对性能的提升是有限的。
+可能老的版本即使不改内容，contentHash值也会改变，这个时候可以配置
 
 ```
-document.addEventListener('click', () => {
-  import('./click.js').then(({default:func}) => {
-    func()
-  })
-})
-
+optimization: {
+    runtimeChunk:{
+      name:'runtime'
+    }
+}
 ```
 
-**注意** 但这样会存在一个问题，就是当用户点击交互了才下载代码可能会有一点小小的延迟，如何解决这个问题？
+**新版本添加这个runtimeChunk也是没有问题的**，此时打包会多出一个runtime.xxxxxxx.js文件
 
-解决方案就是 ： prefetching/preloading
+这是怎么回事呢？
 
-- prefetching 会等到核心先展示的代码加载完毕了，等宽带空闲再继续下载。
+因为在旧的webpack版本里main.js（业务逻辑） 和 vendors.js（第三方库） 之间是存在关联的，这部分的处理代码放在mainfest,虽然没有改变代码，但在旧版本的webpack里 mainfest 包和包之间的关系每次打包可能会变化，当我们配置了runtimeChunk的时候就把mainfest这块关系相关的代码抽离出来了放在runtime.js里
 
-只需要在代码添加如下内容即可：
+因此这样就解决了这个兼容老版本的问题。
 
-```
-document.addEventListener('click', () => {
-  import(/* webpackPrefetch:true */'./click.js').then(({default:func}) => {
-    func()
-  })
-})
-```
+# 十八、Shimming
 
-当用户点击了，仍然会下载click.js文件，但是使用的时间会非常短，因为之前已经下载过了有了缓存了。
+Shimming：在打包过程中，有时候需要对代码兼容。这种兼容不局限于浏览器高低版本。
 
-- preloading 会和主的代码同时下载。
+举个例子
+
+每个文件都是一个模块，每个模块都应该引入自己的依赖才能使用该依赖。
 
 ```
-document.addEventListener('click', () => {
-  import(/* webpackPreload:true */'./click.js').then(({default:func}) => {
-    func()
-  })
-})
+import $ from 'jquery'
+export function setBackground(){
+  $('body').css('background','red')
+}
 ```
 
-因此性能优化最好去考虑代码的使用率更高。
+但是这样的话，每个文件都要写一遍
+
+```
+import $ from 'jquery'
+```
+
+因此可以使用垫片的方式来自动配置
+
+```
+plugins:[
+    new webpack.ProvidePlugin({
+      $:'jquery',
+      _join:['lodash','join']
+    })
+]
+```
+
+当我们配置了上述内容，那么意味着当运行代码的时候看到
+
+- $这个符号就会自动去node_modules里引入jquery。他的原理就是自动帮我们添加了import的步骤。
+- 看到_join就会自动找到 lodash里join的方法
+
+于是我们可以直接这些一个文件模块使用
+
+```
+export function setBackground(){
+  $('body').css('background', _join(['green'], ''))
+}
+```
+
+# 十九、文件配置引入方式修改
+
