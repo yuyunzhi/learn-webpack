@@ -20,7 +20,7 @@ plugins: [
 然后我们也可以在本地代码里添加一些条件判断
 
 ```
-if ('serviceWorker' in navigator) { //浏览器如果支持serviceWorker
+if ('serviceWorker' in navigator) {  //浏览器如果支持serviceWorker
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js')
         .then(registration => {
