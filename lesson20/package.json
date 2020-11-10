@@ -2,7 +2,7 @@
   "name": "library-dell-lee-2019",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/library.js",
+  "main": "",
   "scripts": {
     "build": "webpack"
   },
