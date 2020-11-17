@@ -1,0 +1,1 @@
+(()=>{var e=new(function(){function e(e){this.greeting=e}return e.prototype.greet=function(){console.log("hello",this.greeting)},e}())("world"),t=document.createElement("button");t.textContent="Say hello",t.onclick=function(){alert(e.greet())},document.body.appendChild(t)})();
