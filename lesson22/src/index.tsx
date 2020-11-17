@@ -4,18 +4,10 @@ class Greeter {
     this.greeting = message;
   }
   greet(){
-    console.log('hello',this.greeting)
+    return 'hello'+this.greeting
   }
 }
 
-let greeter = new Greeter('world')
+let greeter = new Greeter('1123123')
 
-
-
-let button = document.createElement('button')
-button.textContent = "Say hello"
-button.onclick=function (){
-  alert(greeter.greet())
-}
-
-document.body.appendChild(button)
+alert(greeter.greet())
