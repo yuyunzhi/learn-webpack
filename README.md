@@ -1102,3 +1102,158 @@ export function setBackground(){
 
 # 十九、文件配置引入方式修改
 
+无
+
+# 二十、Library打包
+
+有时候我们并不是打包的业务代码，而是打包一个函数库或者组件库给别人使用。那这个时候需要考虑些什么？
+
+入口文件index.js
+
+```
+import * as xxx from './math';
+import * as yyy from './string';
+
+export default { xxx, yyy }
+```
+
+通过webpack打包后生成library.js
+
+别人会有哪些方式使用？
+
+```
+import library from 'library';
+const library = require('library')
+require(['library'],function(){})
+```
+
+还有可能通过script来引入获得全局变量Library
+
+```
+<script src='library.js'></script>
+```
+
+如何配置？？
+
+```
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'library.js',
+    // 可以使用script引入，生成全局变量Library
+    library: 'Library',
+    // 不管在那种环境require import都可以正确引入成功
+    libraryTarget: 'umd'
+  }
+```
+
+如果library里使用了lodash，别人的业务代码也使用了lodash，那么有可能会打包两份。这时候在我们的webpack中可以使用externals
+
+```
+  externals: ['lodash'] , // 打包过程中，发现使用了lodash不打包，让用户在外部自己安装避免打包两次
+```
+
+# 二十一、PWA
+
+什么是PWA，传统服务器关闭后，页面访问就失败了。使用了PWA，即使断了服务器仍然浏览器可以获取缓存信息。防止服务器崩溃时候页面直接崩溃。
+
+线上的代码才要做PWA，本地代码运行时不需要的。
+
+webpack配置方式
+
+```
+const WorkboxPlugin = require('workbox-webpack-plugin')
+
+plugins: [
+    new WorkboxPlugin.GenerateSW({
+      clientsClaim: true,
+      skipWaiting: true
+    })
+],
+```
+
+然后我们也可以在本地代码里添加一些条件判断
+
+```
+if ('serviceWorker' in navigator) {  //浏览器如果支持serviceWorker
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+        .then(registration => {
+          console.log('service-worker registed');
+        }).catch(error => {
+      console.log('service-worker register error');
+    })
+  })
+}
+```
+
+# 二十二、TypeScript
+
+webpack.config.js配置方式
+
+```
+const path = require('path');
+
+module.exports={
+  mode:'production',
+  entry:'./src/index.tsx',
+  module:{
+    rules:[{
+      test:/\.tsx?$/,
+      use:'ts-loader',
+      exclude:/node_moudles/
+    }]
+  },
+  output:{
+    filename:'bundle.js',
+    path:path.resolve(__dirname,'dist')
+  }
+}
+```
+
+在根目录下创建tsconfig.json
+
+```
+{
+  "compilerOptions": {
+    "outDir": "./dist",// 导出的的地址在dist
+    "module": "es6", //使用es6的模块引入
+    "target": "es5", //打包成ES5的代码
+    "allowJs": true // 允许在ts文件里引入js文件
+  }
+}
+```
+
+如果使用了第三方库，需要对代码进行提示，那么可以安装@type/xxx
+
+安装对应库的typescript 的 类型
+
+如何查找,在该网站下搜索对应的库，寻找对应的type
+
+https://www.typescriptlang.org/dt/search?search=lodash
+
+# 二十三、webpack性能优化
+
+## 一、提升打包速度
+
+### 1、跟上技术的迭代（Node,Npm,Yarn）
+
+因为webpack是运行在Node环境，版本尽可能的新
+
+### 2、尽可能少的模块上应用的Loader，降低loader使用的频率
+
+比如合理使用 include exclude   node_modules 因为第三方库已经被编译过了不需要再走一遍
+
+```
+{ 
+     test: /\.js$/, 
+     exclude: /node_modules/, // include:path.resolve(__dirname, '../src')
+     loader: 'babel-loader',
+}
+```
+
+
+### 3、尽可能精简plugin的使用，同时确保可靠性
+
+### 4、resolve参数合理配置
+
+Extensions,不要配置太多，否则每次引入，都需要对所有的extensions进行循环遍历
