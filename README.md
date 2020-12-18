@@ -135,7 +135,8 @@ module.exports = {
 - style-loader:当css-loader合并成了一个css,style-loader会把内容挂载到head部分
 - sass-loader:解析sass成css
 - postcss-loader:自动添加-webkit等前缀，兼容不同浏览器样式
-
+- file-loader:将图片移动到dist目录(或者outputPath定义的目录)下并返回一个相对于dist的路径
+- url-loader:相比file-loader多了一个limit配置项(1024 = 1kb),在超过limit的时候执行和file-loader相同的功能，当小于limit时会将文件打包成base64文件到js打包文件里
 使用了postcss-loader,需要在根目录创建postcss.config.js
 
 ```
@@ -184,7 +185,7 @@ module: {
   },
 ```
 
-Loader解析是有先后顺序的：从上到下，从右到左
+Loader解析是有先后顺序的：从下到上，从右到左
 
 ### 4、CSS modules
 
