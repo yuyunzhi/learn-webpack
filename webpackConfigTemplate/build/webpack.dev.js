@@ -23,7 +23,7 @@ const devConfig = {
   module: {
     rules: [
       {
-        test: /\.scss$/,
+        test: /\.less$/,
         use: [
           'style-loader',
           {
@@ -32,7 +32,7 @@ const devConfig = {
               importLoaders: 2
             }
           },
-          'sass-loader',
+          'less-loader',
           'postcss-loader'
         ]
       }, {
