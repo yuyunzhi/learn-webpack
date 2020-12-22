@@ -7,14 +7,14 @@ module.exports = {
   mode: 'development',
   devtool: 'cheap-module-eval-source-map',
   entry: {
-    main: './src/index.js'
+    main: './src/index.js',
   },
   devServer: {
     contentBase: './dist',
     open: true,
     port: 8080,
     hot: true,
-    hotOnly: true
+    hotOnly: true,
   },
   module: {
     rules: [
@@ -30,15 +30,15 @@ module.exports = {
           options: {
             name: '[name]_[hash].[ext]',
             outputPath: 'images/',
-            limit: 10240
-          }
-        }
+            limit: 10240,
+          },
+        },
       },
       {
         test: /\.(eot|ttf|svg)$/,
         use: {
-          loader: 'file-loader'
-        }
+          loader: 'file-loader',
+        },
       },
       {
         test: /\.scss$/,
@@ -47,31 +47,31 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              importLoaders: 2
-            }
+              importLoaders: 2,
+            },
           },
           'sass-loader',
-          'postcss-loader'
-        ]
+          'postcss-loader',
+        ],
       },
       {
         test: /\.css$/,
         use: [
           'style-loader',
           'css-loader',
-          'postcss-loader'
-        ]
-      }]
+          'postcss-loader',
+        ],
+      }],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'src/index.html'
+      template: 'src/index.html',
     }),
     new CleanWebpackPlugin(['dist']),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
   ],
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist')
-  }
-}
+    path: path.resolve(__dirname, 'dist'),
+  },
+};
