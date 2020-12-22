@@ -5,6 +5,7 @@ class App extends Component {
   render() {
     return (
         <div>
+          123123aaaaa
           <div>{_.join(['this','is','app'],' ')}</div>
         </div>
     )

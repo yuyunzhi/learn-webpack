@@ -4,16 +4,24 @@ const commonConfig = require('./webpack.common.js');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const devConfig = {
-	mode: 'development',
-	devtool: 'cheap-module-eval-source-map',
-	devServer: {
-		contentBase: './dist',
-		open: true,
-		port: 8080,
-		hot: true
-	},
-  module:{
-	  rules:[
+  mode: 'development',
+  devtool: 'cheap-module-eval-source-map',
+  devServer: {
+    contentBase: './dist',//根目录
+    open: true, //自动打开浏览器
+    port: 8080,
+    hot: true,
+    proxy:{ //设置代理
+      "/api":{
+        target:'http://www.dell-lee.com',
+        pathRewrite:{
+          'header.json':'demo.json'
+        }
+      }
+    }
+  },
+  module: {
+    rules: [
       {
         test: /\.scss$/,
         use: [
@@ -37,8 +45,8 @@ const devConfig = {
       }
     ]
   },
-	plugins: [
-		new webpack.HotModuleReplacementPlugin()
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
     // new BundleAnalyzerPlugin({
     //   //  可以是`server`，`static`或`disabled`。
     //   //  在`server`模式下，分析器将启动HTTP服务器来显示软件包报告。
@@ -69,7 +77,7 @@ const devConfig = {
     //   statsOptions: null,
     //   logLevel: 'info' // 日志级别。可以是'信息'，'警告'，'错误'或'沉默'。
     // })
-	]
+  ]
 }
 
 module.exports = merge(commonConfig, devConfig);
