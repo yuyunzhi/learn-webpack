@@ -6,8 +6,11 @@ module.exports = {
   entry: {
     main: './src/index.js'
   },
-  resolve:{
-      extensions:['.js','.jsx']
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    alias: {
+      xxx: path.resolve(__dirname, '../src/child')
+    }
   },
   module: {
     rules: [{

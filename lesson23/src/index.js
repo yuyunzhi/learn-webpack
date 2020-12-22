@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 
 import ReactDom from 'react-dom'
-import Child from './child'
+// import Child from './child'
+import Child from 'xxx'
 class App extends Component {
   render() {
     return (
