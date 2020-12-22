@@ -52,3 +52,89 @@ alias:(别名)
 ```
 import child from 'xxx'
 ```
+
+### 使用DllPlugin提高打包速度
+
+目标：
+- 第三方模块只打包一次
+- 项目里使用第三方模块，使用dll文件里的模块
+
+创建webpack.dll.js
+
+```
+const path = require('path')
+const webpack = require('webpack')
+
+module.exports = {
+  mode:'production',
+  entry:{
+    vendors:['react','react-dom','lodash']
+  },
+  output:{
+    filename:'[name].dll.js',
+    path:path.resolve(__dirname, '../dll'),
+    library:'[name]' // 然后暴露出来，用变量vendors访问
+  },
+  plugins:[
+      new webpack.DllPlugin({
+        name: '[name]', //生成一个第三方模块的映射表
+        path:path.resolve(__dirname,'../dll/[name].manifest.json') 
+      })
+  ]
+}
+```
+
+package.json添加build:dll
+
+```
+"build:dll": "webpack --config ./build/webpack.dll.js"
+```
+
+在webpack.common.js里添加plugin插件使得打包的dll/vendors.dll.js能够引入到html里，并且有一个全局变量vendors访问
+
+```
+
+const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin')
+
+....
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'src/index.html'
+    }),
+    new CleanWebpackPlugin(['../dist'], {
+      root: path.resolve(__dirname, '../')
+    }),
+    new AddAssetHtmlWebpackPlugin({ // 在html里添加新的静态资源 script 引入
+      filepath:path.resolve(__dirname,'../dll/vendors.dll.js')
+    }),
+     new webpack.DllReferencePlugin({ // 在映射表里找到对应的第三方模块，而不是直接从node_modules里找
+        manifest:path.resolve(__dirname,'../dll/vendors.manifest.json')
+      })
+  ]
+
+...
+```
+
+运行 yarn dev 查看页面的html
+
+```
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>html 模版</title>
+    </head>
+    <body>
+        <div id='root'></div>
+        //多出了vendors.dll.js
+        <script type="text/javascript" src="vendors.dll.js"></script>
+        <script type="text/javascript" src="vendors~main.chunk.js"></script>
+        <script type="text/javascript" src="main.js"></script>
+    </body>
+</html>
+```
+
+
+
+
+

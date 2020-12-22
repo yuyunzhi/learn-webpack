@@ -1,16 +1,15 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin')
+const webpack = require('webpack')
 
 module.exports = {
   entry: {
     main: './src/index.js'
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
-    alias: {
-      xxx: path.resolve(__dirname, '../src/child')
-    }
+    extensions: ['.js', '.jsx']
   },
   module: {
     rules: [{
@@ -40,7 +39,13 @@ module.exports = {
     }),
     new CleanWebpackPlugin(['../dist'], {
       root: path.resolve(__dirname, '../')
-    })
+    }),
+    new AddAssetHtmlWebpackPlugin({ // 在html里添加新的静态资源 script 引入
+      filepath:path.resolve(__dirname,'../dll/vendors.dll.js')
+    }),
+     new webpack.DllReferencePlugin({ // 在映射表里找到对应的第三方模块使用全局变量使用，而不是直接从node_modules里找
+        manifest:path.resolve(__dirname,'../dll/vendors.manifest.json')
+      })
   ],
   optimization: {
     usedExports: true, // tree shaking 使用
