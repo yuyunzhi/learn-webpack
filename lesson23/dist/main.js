@@ -94,19 +94,19 @@ module.exports = (__webpack_require__(1))(0);
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = vendors;
+module.exports = react;
 
 /***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = (__webpack_require__(1))(8);
+module.exports = (__webpack_require__(5))(3);
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = (__webpack_require__(1))(4);
+module.exports = (__webpack_require__(1))(8);
 
 /***/ }),
 /* 4 */
@@ -132,6 +132,12 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 }
 
 react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(App, null), document.getElementById('root'));
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+module.exports = vendors;
 
 /***/ })
 /******/ ]);

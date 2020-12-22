@@ -3,6 +3,32 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin')
 const webpack = require('webpack')
+const fs = require('fs')
+
+const plugins = [
+  new HtmlWebpackPlugin({
+    template: 'src/index.html'
+  }),
+  new CleanWebpackPlugin(['../dist'], {
+    root: path.resolve(__dirname, '../')
+  })
+]
+
+const files = fs.readdirSync(path.resolve(__dirname,'../dll'))
+console.log('files',files);
+files.forEach(file=>{
+  if(/.*\.dll.js/.test(file)){
+    plugins.push( new AddAssetHtmlWebpackPlugin({ // 在html里添加新的静态资源 script 引入
+      filepath:path.resolve(__dirname,'../dll',file)
+    }))
+  }
+
+  if(/.*\.manifest.json/.test(file)){
+    plugins.push( new webpack.DllReferencePlugin({ // 在映射表里找到对应的第三方模块使用全局变量使用，而不是直接从node_modules里找
+      manifest:path.resolve(__dirname,'../dll/',file)
+    }))
+  }
+})
 
 module.exports = {
   entry: {
@@ -33,20 +59,7 @@ module.exports = {
       }
     }]
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: 'src/index.html'
-    }),
-    new CleanWebpackPlugin(['../dist'], {
-      root: path.resolve(__dirname, '../')
-    }),
-    new AddAssetHtmlWebpackPlugin({ // 在html里添加新的静态资源 script 引入
-      filepath:path.resolve(__dirname,'../dll/vendors.dll.js')
-    }),
-     new webpack.DllReferencePlugin({ // 在映射表里找到对应的第三方模块使用全局变量使用，而不是直接从node_modules里找
-        manifest:path.resolve(__dirname,'../dll/vendors.manifest.json')
-      })
-  ],
+  plugins,
   optimization: {
     usedExports: true, // tree shaking 使用
     splitChunks: {
