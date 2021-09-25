@@ -1,12 +1,12 @@
 const path = require('path')
-const CopyRightWebpackPlugin = require('./plugin/copyright-webpack-plugin')
+const FileListPlugin = require('./plugin/FileListPlugin')
 module.exports = {
   mode: 'development',
   entry: {
     main: './src/index.js'
   },
   plugins:[
-      new CopyRightWebpackPlugin({
+      new FileListPlugin({
           name: 'yuyunzhi'
       })
   ],
